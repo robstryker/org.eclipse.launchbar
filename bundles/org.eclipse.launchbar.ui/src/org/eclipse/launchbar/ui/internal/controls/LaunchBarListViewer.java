@@ -1,8 +1,11 @@
 package org.eclipse.launchbar.ui.internal.controls;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -544,10 +547,19 @@ public class LaunchBarListViewer extends StructuredViewer {
 		if (separatorIndex >= topElements.length) {
 			return topElements; // all elements will fit in top elements
 		}
-		ILaunchDescriptor[] descsCopy = new ILaunchDescriptor[separatorIndex + result.length];
-		System.arraycopy(topElements, 0, descsCopy, 0, separatorIndex); // copy first N elements
-		System.arraycopy(result, 0, descsCopy, separatorIndex, result.length); // copy all into rest
-		return descsCopy;
+		
+		// Add first 'n' Top Elements
+		ArrayList<Object> ret = new ArrayList<Object>();
+		for( int i = 0; i < separatorIndex; i++ ) {
+			ret.add(topElements[i]);
+		}
+		
+		for( int i = 0; i < result.length; i++ ) {
+			if( !ret.contains(result[i])) {
+				ret.add(result[i]);
+			}
+		}
+		return (Object[]) ret.toArray(new Object[ret.size()]);
 	}
 
 	private Object[] getElements() {
