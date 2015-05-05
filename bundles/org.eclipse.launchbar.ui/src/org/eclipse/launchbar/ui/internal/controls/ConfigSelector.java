@@ -148,7 +148,7 @@ public class ConfigSelector extends CSelector {
 
 	@Override
 	public boolean isEditable(Object element) {
-		return element instanceof ILaunchDescriptor;
+		return element instanceof ILaunchDescriptor && ConfigureActiveLaunchHandler.canOpenConfigurationEditor((ILaunchDescriptor) element).isOK();
 	}
 
 	@Override
